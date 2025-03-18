@@ -38,3 +38,27 @@ Pro Tipp: Good textfiles can be found [here](http://textfiles.com/sex/EROTICA/)
 :P
 UPDATE II
 WARMSTART IS AT $203C
+
+## MECB version for use with 65c02 monitor
+
+Modified to use TASM assembler for compatibility with 65c02 monitor
+This version is built to run in ram at 0x2000 with i/o patched to use 65c02 monitor functions.
+Note: an additional call to character out is made after character inputfor screen echo.
+Note: page zero addresses are default, may conflict with BASIC - to check
+A version is being built to reside in rom as part of the monitor.
+
+
+Built under DOSBox-X with build.bat
+
+```
+tass /c /lledip.lbl ledip.asm ledip.bin ledip.lst
+```
+
+Binary image converted to s-records with commad:
+```
+srec_cat ledip.bin -binary -offset 0x1ffe -output ledip.hex -Intel -address-length=2
+```
+
+Load in 65c02 monitor using U command and xmodem transfer of file ledip.hex, execute at 0x2000
+
+

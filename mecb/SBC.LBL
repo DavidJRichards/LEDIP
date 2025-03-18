@@ -1,0 +1,6 @@
+print_cr         = $e1fe
+input_chr        = $e2a4
+output           = $e2aa
+print1sp         = $e22f
+print1byte       = $e20f
+

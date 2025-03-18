@@ -1,0 +1,548 @@
+
+6502/65C02 Turbo Assembler listing file of "ledip.asm"
+done on Mon Mar 17 15:35:06 2025
+
+
+.2000  d8         cld              CSTAT	cld
+.2001  20 42 24   jsr $2442        		jsr CRLF
+.2004  20 42 24   jsr $2442        		jsr CRLF
+.2007  a0 ee      ldy #$ee         		ldy #$ee
+.2009  b9 8b 23   lda $238b,y      CSTATL 	lda STADO - $ee,y
+.200c  20 57 24   jsr $2457        		jsr OUTCH
+.200f  c8         iny              		iny 
+.2010  d0 f7      bne $2009        		bne CSTATL
+.2012  20 30 24   jsr $2430        RSTAD 	jsr RDASC
+.2015  20 07 23   jsr $2307        		jsr HCHK4
+.2018  b0 10      bcs $202a        		bcs RSTADL
+.201a  20 42 24   jsr $2442        		jsr CRLF
+.201d  a9 48      lda #$48         		lda #"H"
+.201f  20 57 24   jsr $2457        		jsr OUTCH
+.2022  a9 21      lda #$21         		lda #$21
+.2024  20 57 24   jsr $2457        		jsr OUTCH
+.2027  4c 00 20   jmp $2000        		jmp CSTAT
+.202a  20 c8 22   jsr $22c8        RSTADL 	jsr CVAH
+.202d  20 42 24   jsr $2442        		jsr CRLF
+.2030  a5 dd      lda $dd          		lda HEXBUL
+.2032  85 db      sta $db          		sta STADL
+.2034  85 d9      sta $d9          		sta LOCCL
+.2036  a5 de      lda $de          		lda HEXBUH
+.2038  85 dc      sta $dc          		sta STADH
+.203a  85 da      sta $da          		sta LOCCH
+.203c  d8         cld              WSTAT 	cld
+.203d  a9 02      lda #$02         		lda #2
+.203f  85 d7      sta $d7          		sta CHCC
+.2041  20 42 24   jsr $2442        		jsr CRLF
+.2044  a9 2f      lda #$2f         		lda #$2f
+.2046  20 57 24   jsr $2457        		jsr OUTCH
+.2049  20 30 24   jsr $2430        		jsr RDASC
+.204c  20 0c 23   jsr $230c        		jsr DCHK4
+.204f  b0 03      bcs $2054        		bcs AL8
+.2051  4c ce 21   jmp $21ce        		jmp CMHD
+.2054  20 c8 22   jsr $22c8        AL8 	jsr CVAH
+.2057  a5 dd      lda $dd          		lda HEXBUL
+.2059  a0 01      ldy #$01         		ldy #1
+.205b  91 d9      sta ($d9),y      		sta (LOCCL),y
+.205d  d1 d9      cmp ($d9),y      		cmp (LOCCL),y
+.205f  f0 03      beq $2064        		beq AL3
+.2061  4c 74 22   jmp $2274        AL4 	jmp INVM2
+.2064  a5 de      lda $de          AL3 	lda HEXBUH
+.2066  c8         iny              		iny
+.2067  91 d9      sta ($d9),y      		sta (LOCCL),y
+.2069  d1 d9      cmp ($d9),y      		cmp (LOCCL),y
+.206b  d0 f4      bne $2061        		bne AL4
+.206d  20 60 24   jsr $2460        		jsr SPACE
+.2070  20 4b 24   jsr $244b        RVASC 	jsr GETCH
+.2073  c9 08      cmp #$08         		cmp #$08
+.2075  d0 0a      bne $2081        		bne RVASC1
+.2077  a5 d7      lda $d7          		lda CHCC
+.2079  c9 02      cmp #$02         		cmp #2
+.207b  f0 f3      beq $2070        		beq RVASC
+.207d  c6 d7      dec $d7          		dec CHCC
+.207f  d0 ef      bne $2070        		bne RVASC
+.2081  e6 d7      inc $d7          RVASC1 	inc CHCC
+.2083  d0 10      bne $2095        		bne RVASC2
+.2085  20 42 24   jsr $2442        INVL 	jsr CRLF
+.2088  a9 4c      lda #$4c         		lda #"L"
+.208a  20 57 24   jsr $2457        		jsr OUTCH
+.208d  a9 21      lda #$21         		lda #$21
+.208f  20 57 24   jsr $2457        		jsr OUTCH
+.2092  4c 3c 20   jmp $203c        		jmp WSTAT
+.2095  c9 0d      cmp #$0d         RVASC2 	cmp #$0D
+.2097  f0 0a      beq $20a3        		beq RVASC4
+.2099  a4 d7      ldy $d7          		ldy CHCC
+.209b  91 d9      sta ($d9),y      		sta (LOCCL),y
+.209d  d1 d9      cmp ($d9),y      		cmp (LOCCL),y
+.209f  d0 c0      bne $2061        AL2 	bne AL4
+.20a1  f0 cd      beq $2070        		beq RVASC
+.20a3  a5 d7      lda $d7          RVASC4 	lda CHCC
+.20a5  c9 03      cmp #$03         		cmp #3
+.20a7  d0 32      bne $20db        		bne LADJ
+.20a9  20 a4 22   jsr $22a4        LDEL 	jsr HEXST
+.20ac  20 ad 22   jsr $22ad        LDEL1 	jsr CMPHL
+.20af  f0 05      beq $20b6        		beq AL10
+.20b1  20 4f 23   jsr $234f        		jsr LNCHK
+.20b4  b0 03      bcs $20b9        		bcs AL7
+.20b6  4c 3c 20   jmp $203c        AL10 	jmp WSTAT
+.20b9  f0 06      beq $20c1        AL7 	beq LDEL2
+.20bb  20 2c 23   jsr $232c        		jsr INCHB
+.20be  4c ac 20   jmp $20ac        		jmp LDEL1
+.20c1  a0 00      ldy #$00         LDEL2 	ldy #0
+.20c3  b1 dd      lda ($dd),y      		lda (HEXBUL),y
+.20c5  85 d8      sta $d8          		sta TEMPR
+.20c7  20 ed 23   jsr $23ed        		jsr MOV3
+.20ca  20 60 23   jsr $2360        		jsr LSTLC
+.20cd  f0 06      beq $20d5        		beq LDEL3
+.20cf  20 10 24   jsr $2410        		jsr MOV4
+.20d2  20 77 23   jsr $2377        		jsr MOVMB
+.20d5  20 e8 22   jsr $22e8        LDEL3 	jsr DCLC
+.20d8  4c 3c 20   jmp $203c        		jmp WSTAT
+.20db  a5 d7      lda $d7          LADJ 	lda CHCC
+.20dd  a0 00      ldy #$00         		ldy #0
+.20df  91 d9      sta ($d9),y      		sta (LOCCL),y
+.20e1  d1 d9      cmp ($d9),y      		cmp (LOCCL),y
+.20e3  d0 ba      bne $209f        		bne AL2
+.20e5  20 a4 22   jsr $22a4        		jsr HEXST
+.20e8  20 ad 22   jsr $22ad        LADJ1 	jsr CMPHL
+.20eb  d0 06      bne $20f3        		bne LADJ2
+.20ed  20 3c 23   jsr $233c        		jsr INCLC
+.20f0  4c 3c 20   jmp $203c        		jmp WSTAT
+.20f3  20 4f 23   jsr $234f        LADJ2 	jsr LNCHK
+.20f6  b0 03      bcs $20fb        		bcs AL9
+.20f8  4c a0 21   jmp $21a0        		jmp LINS
+.20fb  f0 06      beq $2103        AL9 	beq CMPLL
+.20fd  20 2c 23   jsr $232c        		jsr INCHB
+.2100  4c e8 20   jmp $20e8        		jmp LADJ1
+.2103  a2 00      ldx #$00         CMPLL 	ldx #0
+.2105  a1 d9      lda ($d9,x)      		lda (LOCCL,x)
+.2107  c1 dd      cmp ($dd,x)      		cmp (HEXBUL,x)
+.2109  f0 04      beq $210f        		beq LADJ3
+.210b  b0 0b      bcs $2118        		bcs LADJ4
+.210d  90 5e      bcc $216d        		bcc LADJ5 
+.210f  20 c2 23   jsr $23c2        LADJ3 	jsr MOV1
+.2112  20 77 23   jsr $2377        		jsr MOVMB
+.2115  4c 3c 20   jmp $203c        		jmp WSTAT
+.2118  a2 00      ldx #$00         LADJ4 	ldx #0
+.211a  a1 d9      lda ($d9,x)      		lda (LOCCL,x)
+.211c  e1 dd      sbc ($dd,x)      		sbc (HEXBUL,x)
+.211e  85 d8      sta $d8          		sta TEMPR
+.2120  20 19 24   jsr $2419        		jsr MOV5
+.2123  20 77 23   jsr $2377        		jsr MOVMB
+.2126  20 ed 23   jsr $23ed        		jsr MOV3
+.2129  20 60 23   jsr $2360        		jsr LSTLC    ; was lsr
+.212c  d0 06      bne $2134        		bne LADJ46
+.212e  20 3c 23   jsr $233c        		jsr INCLC
+.2131  4c 4b 21   jmp $214b        		jmp LADJ47
+.2134  20 3c 23   jsr $233c        LADJ46 	jsr INCLC
+.2137  18         clc              		clc
+.2138  a5 d4      lda $d4          		lda MENDH
+.213a  85 d2      sta $d2          		sta MDESH
+.213c  a5 d3      lda $d3          		lda MENDL
+.213e  65 d8      adc $d8          		adc TEMPR
+.2140  90 04      bcc $2146        		bcc LADJ43
+.2142  e6 d2      inc $d2          		inc MDESH
+.2144  f0 24      beq $216a        		beq AL6
+.2146  85 d1      sta $d1          LADJ43 	sta MDESL
+.2148  20 9a 23   jsr $239a        		jsr MOVMR
+.214b  20 c2 23   jsr $23c2        LADJ47 	jsr MOV1
+.214e  20 77 23   jsr $2377        		jsr MOVMB
+.2151  a0 00      ldy #$00         		ldy #0
+.2153  38         sec              		sec
+.2154  a5 d9      lda $d9          		lda LOCCL
+.2156  f1 d9      sbc ($d9),y      		sbc (LOCCL),y
+.2158  b0 02      bcs $215c        		bcs LADJ44
+.215a  c6 da      dec $da          		dec LOCCH
+.215c  18         clc              LADJ44  clc
+.215d  65 d8      adc $d8          		adc TEMPR
+.215f  85 d9      sta $d9          		sta LOCCL
+.2161  90 04      bcc $2167        		bcc LADJ45
+.2163  e6 da      inc $da          		inc LOCCH
+.2165  f0 03      beq $216a        		beq AL6
+.2167  4c 3c 20   jmp $203c        LADJ45 	jmp WSTAT
+.216a  4c 74 22   jmp $2274        AL6  	jmp INVM2
+.216d  38         sec              LADJ5 	sec
+.216e  a0 00      ldy #$00         		ldy #0
+.2170  b1 dd      lda ($dd),y      		lda (HEXBUL),y
+.2172  f1 d9      sbc ($d9),y      		sbc (LOCCL),y
+.2174  85 d8      sta $d8          		sta TEMPR
+.2176  20 ed 23   jsr $23ed        		jsr MOV3
+.2179  a5 de      lda $de          		lda HEXBUH
+.217b  85 d2      sta $d2          		sta MDESH
+.217d  a5 dd      lda $dd          		lda HEXBUL
+.217f  18         clc              		clc
+.2180  a2 00      ldx #$00         		ldx #0       ; was lda
+.2182  61 d9      adc ($d9,x)      		adc (LOCCL,x)
+.2184  90 04      bcc $218a        		bcc LADJ51
+.2186  e6 d2      inc $d2          		inc MDESH
+.2188  f0 e0      beq $216a        		beq AL6
+.218a  85 d1      sta $d1          LADJ51 	sta MDESL
+.218c  20 60 23   jsr $2360        		jsr LSTLC
+.218f  f0 03      beq $2194        		beq LADJ52
+.2191  20 77 23   jsr $2377        		jsr MOVMB
+.2194  20 c2 23   jsr $23c2        LADJ52 	jsr MOV1
+.2197  20 77 23   jsr $2377        		jsr MOVMB
+.219a  20 e8 22   jsr $22e8        		jsr DCLC
+.219d  4c 3c 20   jmp $203c        		jmp WSTAT
+.21a0  20 19 24   jsr $2419        LINS 	jsr MOV5           ; was jmp
+.21a3  20 77 23   jsr $2377        		jsr MOVMB
+.21a6  a5 dd      lda $dd          		lda HEXBUL
+.21a8  85 d5      sta $d5          		sta MBEGL
+.21aa  a5 de      lda $de          		lda HEXBUH
+.21ac  85 d6      sta $d6          		sta MBEGH
+.21ae  20 00 24   jsr $2400        		jsr MOV33
+.21b1  20 1c 24   jsr $241c        		jsr MOV52
+.21b4  a5 d1      lda $d1          		lda MDESL
+.21b6  38         sec              		sec
+.21b7  e9 01      sbc #$01         		sbc #1
+.21b9  b0 02      bcs $21bd        		bcs LINS1
+.21bb  c6 d2      dec $d2          		dec MDESH
+.21bd  85 d1      sta $d1          LINS1 	sta MDESL
+.21bf  20 3c 23   jsr $233c        		jsr INCLC
+.21c2  20 9a 23   jsr $239a        		jsr MOVMR
+.21c5  20 c2 23   jsr $23c2        		jsr MOV1
+.21c8  20 77 23   jsr $2377        		jsr MOVMB
+.21cb  4c 3c 20   jmp $203c        		jmp WSTAT
+.21ce  a5 e2      lda $e2          CMHD 	lda ASCBUM
+.21d0  29 df      and #$df         		and #%11011111
+.21d2  c9 45      cmp #$45         		cmp #"E"
+.21d4  f0 16      beq $21ec        		beq EXIT
+.21d6  c9 46      cmp #$46         		cmp #"F"
+.21d8  f0 28      beq $2202        		beq FILE
+.21da  c9 54      cmp #$54         		cmp #"T"
+.21dc  f0 51      beq $222f        		beq TEXT
+.21de  c9 4c      cmp #$4c         		cmp #"L"
+.21e0  f0 6c      beq $224e        		beq LIST
+.21e2  c9 43      cmp #$43         		cmp #"C"
+.21e4  f0 13      beq $21f9        		beq CLEAR
+.21e6  ea         nop              		nop
+.21e7  ea         nop              		nop
+.21e8  ea         nop              		nop
+.21e9  4c 84 22   jmp $2284        		jmp INVC
+.21ec  20 b8 22   jsr $22b8        EXIT 	jsr CRSEN
+.21ef  a9 20      lda #$20         		lda #$20 ; was ldy
+.21f1  48         pha              		pha 
+.21f2  a9 3c      lda #$3c         		lda #$3C
+.21f4  48         pha              		pha
+.21f5  08         php              		php
+.21f6  4c 00 10   jmp $1000        		jmp $1000
+.21f9  20 4b 24   jsr $244b        CLEAR 	jsr GETCH
+.21fc  20 b8 22   jsr $22b8        		jsr CRSEN
+.21ff  4c 00 20   jmp $2000        		jmp CSTAT
+.2202  20 b8 22   jsr $22b8        FILE 	jsr CRSEN
+.2205  a0 ea      ldy #$ea         		ldy #$ea
+.2207  b9 a1 23   lda $23a1,y      FILE1 	lda FTAB-$ea,y
+.220a  20 57 24   jsr $2457        		jsr OUTCH ; was omitted
+.220d  c8         iny              		iny
+.220e  d0 f7      bne $2207        		bne FILE1
+.2210  20 42 24   jsr $2442        		jsr CRLF
+.2213  a5 dc      lda $dc          		lda STADH
+.2215  20 69 24   jsr $2469        		jsr OUTBYT
+.2218  a5 db      lda $db          		lda STADL
+.221a  20 69 24   jsr $2469        		jsr OUTBYT
+.221d  a9 2d      lda #$2d         		lda #"-"
+.221f  20 57 24   jsr $2457        		jsr OUTCH
+.2222  a5 da      lda $da          		lda LOCCH ; was omitted
+.2224  20 69 24   jsr $2469        		jsr OUTBYT ; was omitted
+.2227  a5 d9      lda $d9          		lda LOCCL
+.2229  20 69 24   jsr $2469        		jsr OUTBYT
+.222c  4c 3c 20   jmp $203c        ECMD 	jmp WSTAT
+.222f  20 b8 22   jsr $22b8        TEXT 	jsr CRSEN
+.2232  20 9e 22   jsr $229e        		jsr CLHS
+.2235  20 ad 22   jsr $22ad        TEXT1 	jsr CMPHL
+.2238  d0 06      bne $2240        		bne TEXT2
+.223a  20 42 24   jsr $2442        		jsr CRLF
+.223d  4c 3c 20   jmp $203c        		jmp WSTAT
+.2240  20 f4 22   jsr $22f4        TEXT2 	jsr DPASC
+.2243  a9 7f      lda #$7f         		lda #$7f
+.2245  20 57 24   jsr $2457        		jsr OUTCH
+.2248  20 2c 23   jsr $232c        		jsr INCHB
+.224b  4c 35 22   jmp $2235        		jmp TEXT1
+.224e  20 b8 22   jsr $22b8        LIST 	jsr CRSEN
+.2251  20 a4 22   jsr $22a4        		jsr HEXST
+.2254  20 ad 22   jsr $22ad        LIST01 	jsr CMPHL
+.2257  f0 d3      beq $222c        		beq ECMD
+.2259  a0 02      ldy #$02         		ldy #2
+.225b  b1 dd      lda ($dd),y      		lda(HEXBUL),y
+.225d  20 69 24   jsr $2469        		jsr OUTBYT
+.2260  88         dey              		dey
+.2261  b1 dd      lda ($dd),y      		lda (HEXBUL),y
+.2263  20 69 24   jsr $2469        		jsr OUTBYT
+.2266  20 60 24   jsr $2460        		jsr SPACE
+.2269  20 f4 22   jsr $22f4        		jsr DPASC
+.226c  20 2c 23   jsr $232c        		jsr INCHB
+.226f  4c 54 22   jmp $2254        		JMP LIST01
+.2272  68         pla              INVM1 	pla
+.2273  68         pla              		pla
+.2274  20 42 24   jsr $2442        INVM2 	jsr CRLF
+.2277  a9 4d      lda #$4d         		lda #"M"
+.2279  20 57 24   jsr $2457        		jsr OUTCH
+.227c  a9 21      lda #$21         		lda #$21
+.227e  20 57 24   jsr $2457        		jsr OUTCH
+.2281  4c 3c 20   jmp $203c        		jmp WSTAT
+.2284  20 42 24   jsr $2442        INVC 	jsr CRLF
+.2287  a9 43      lda #$43         		lda #"C"
+.2289  20 57 24   jsr $2457        		jsr OUTCH
+.228c  a9 21      lda #$21         		lda #$21
+.228e  20 57 24   jsr $2457        		jsr OUTCH
+.2291  4c 3c 20   jmp $203c        		jmp WSTAT
+.2294  c9 3a      cmp #$3a         ABIAS 	cmp #$3a
+.2296  b0 03      bcs $229b        		bcs  ABIAS1
+.2298  e9 2f      sbc #$2f         		sbc #$2f
+.229a  60         rts              		rts
+.229b  e9 37      sbc #$37         ABIAS1 	sbc #$37
+.229d  60         rts              		rts
+.229e  20 42 24   jsr $2442        CLHS 	jsr CRLF
+.22a1  20 42 24   jsr $2442        		jsr CRLF
+.22a4  a5 db      lda $db          HEXST 	lda STADL
+.22a6  85 dd      sta $dd          		sta HEXBUL
+.22a8  a5 dc      lda $dc          		lda STADH
+.22aa  85 de      sta $de          		sta HEXBUH
+.22ac  60         rts              		rts
+.22ad  a5 dd      lda $dd          CMPHL 	lda HEXBUL ; was HEXBUH
+.22af  c5 d9      cmp $d9          		cmp LOCCL
+.22b1  d0 04      bne $22b7        		bne CMPHL1
+.22b3  a5 de      lda $de          		lda HEXBUH
+.22b5  c5 da      cmp $da          		cmp LOCCH
+.22b7  60         rts              CMPHL1 	rts
+.22b8  20 4b 24   jsr $244b        CRSEN 	jsr GETCH
+.22bb  c9 0d      cmp #$0d         		cmp #$0d
+.22bd  f0 05      beq $22c4        		beq CRSEN1
+.22bf  68         pla              		pla
+.22c0  68         pla              		pla
+.22c1  4c 84 22   jmp $2284        		jmp INVC
+.22c4  20 42 24   jsr $2442        CRSEN1 	jsr CRLF
+.22c7  60         rts              		rts
+.22c8  a0 02      ldy #$02         CVAH 	ldy #2
+.22ca  a2 04      ldx #$04         		ldx #4
+.22cc  b5 de      lda $de,x        CVAH1 	lda ASCBUM-4,x
+.22ce  20 94 22   jsr $2294        		jsr ABIAS
+.22d1  0a         asl              		asl 
+.22d2  0a         asl              		asl 
+.22d3  0a         asl              		asl 
+.22d4  0a         asl              		asl 
+.22d5  85 d8      sta $d8          		sta TEMPR
+.22d7  ca         dex              		dex
+.22d8  b5 de      lda $de,x        		lda ASCBUM-4,x
+.22da  20 94 22   jsr $2294        		jsr ABIAS
+.22dd  18         clc              		clc
+.22de  65 d8      adc $d8          		adc TEMPR
+.22e0  99 dc 00   sta $00dc,y      		sta HEXBUH-2,y
+.22e3  ca         dex              		dex
+.22e4  88         dey              		dey
+.22e5  d0 e5      bne $22cc        		bne CVAH1
+.22e7  60         rts              		rts
+.22e8  38         sec              DCLC 	sec
+.22e9  a5 d9      lda $d9          		lda LOCCL
+.22eb  e5 d8      sbc $d8          		sbc TEMPR
+.22ed  85 d9      sta $d9          		sta LOCCL
+.22ef  b0 02      bcs $22f3        		bcs DCLC1
+.22f1  c6 da      dec $da          		dec LOCCH
+.22f3  60         rts              DCLC1 	rts
+.22f4  a0 03      ldy #$03         DPASC 	ldy #3
+.22f6  b1 dd      lda ($dd),y      DPASC1 	lda (HEXBUL),y
+.22f8  20 57 24   jsr $2457        		jsr OUTCH
+.22fb  c8         iny              		iny
+.22fc  98         tya              		tya
+.22fd  a2 00      ldx #$00         		ldx #0
+.22ff  c1 dd      cmp ($dd,x)      		cmp (HEXBUL,x)
+.2301  d0 f3      bne $22f6        		bne DPASC1
+.2303  20 42 24   jsr $2442        		jsr CRLF
+.2306  60         rts              		rts
+.2307  a0 ff      ldy #$ff         HCHK4 	ldy #$ff
+.2309  4c 0e 23   jmp $230e        		jmp CHEK1
+.230c  a0 00      ldy #$00         DCHK4 	ldy #0
+.230e  a2 04      ldx #$04         CHEK1 	ldx #4
+.2310  b5 de      lda $de,x        CHEK2 	lda ASCBUM-4,x
+.2312  c0 00      cpy #$00         		cpy #0
+.2314  f0 08      beq $231e        		beq DCHK  ; was bne
+.2316  c9 47      cmp #$47         HCHK 	cmp #$47
+.2318  b0 0c      bcs $2326        		bcs ECHK1
+.231a  c9 41      cmp #$41         		cmp #$41
+.231c  b0 0a      bcs $2328        		bcs ECHK2
+.231e  c9 3a      cmp #$3a         DCHK 	cmp#$3a
+.2320  b0 04      bcs $2326        		bcs ECHK1
+.2322  c9 30      cmp #$30         		cmp#$30
+.2324  b0 02      bcs $2328        		bcs ECHK2
+.2326  18         clc              ECHK1 	clc	
+.2327  60         rts              		rts
+.2328  ca         dex              ECHK2 	dex
+.2329  d0 e5      bne $2310        		bne CHEK2
+.232b  60         rts              ECHK 	rts
+.232c  a2 00      ldx #$00         INCHB 	ldx #0
+.232e  a1 dd      lda ($dd,x)      		lda (HEXBUL,x) ; was HEXBUH
+.2330  18         clc              		clc
+.2331  65 dd      adc $dd          		adc HEXBUL
+.2333  85 dd      sta $dd          		sta HEXBUL
+.2335  90 04      bcc $233b        		bcc INCHB1
+.2337  e6 de      inc $de          		inc HEXBUH
+.2339  f0 10      beq $234b        		beq INCLC2
+.233b  60         rts              INCHB1 	rts
+.233c  a2 00      ldx #$00         INCLC 	ldx #0
+.233e  a1 d9      lda ($d9,x)      		lda (LOCCL,x)
+.2340  18         clc              		clc
+.2341  65 d9      adc $d9          		adc LOCCL
+.2343  85 d9      sta $d9          		sta LOCCL
+.2345  90 07      bcc $234e        		bcc INCLC1
+.2347  e6 da      inc $da          		inc LOCCH
+.2349  d0 03      bne $234e        		bne INCLC1
+.234b  4c 72 22   jmp $2272        INCLC2 	jmp INVM1
+.234e  60         rts              INCLC1 	rts
+.234f  a0 02      ldy #$02         LNCHK 	ldy #2
+.2351  b1 d9      lda ($d9),y      		lda (LOCCL),y
+.2353  d1 dd      cmp ($dd),y      		cmp (HEXBUL),y
+.2355  90 02      bcc $2359        		bcc LNCHK1
+.2357  f0 01      beq $235a        		beq LNCHK2
+.2359  60         rts              LNCHK1 	rts
+.235a  88         dey              LNCHK2 	dey
+.235b  b1 d9      lda ($d9),y      		lda (LOCCL),y
+.235d  d1 dd      cmp ($dd),y      		cmp (HEXBUL),y
+.235f  60         rts              		rts
+.2360  a5 d5      lda $d5          LSTLC 	lda MBEGL
+.2362  c5 d9      cmp $d9          		cmp LOCCL
+.2364  f0 01      beq $2367        		beq LSTLC1
+.2366  60         rts              		rts
+.2367  a5 d6      lda $d6          LSTLC1 lda MBEGH
+.2369  c5 da      cmp $da          		cmp LOCCH
+.236b  60         rts              		rts
+.236c  a5 d3      lda $d3          MCHEK 	lda MENDL
+.236e  c5 d5      cmp $d5          		cmp MBEGL
+.2370  d0 04      bne $2376        		bne ENDMC
+.2372  a5 d4      lda $d4          		lda MENDH
+.2374  c5 d6      cmp $d6          		cmp MBEGH
+.2376  60         rts              ENDMC 	rts
+.2377  a0 00      ldy #$00         MOVMB 	ldy #0
+.2379  b1 d5      lda ($d5),y      MOVM1 	lda (MBEGL),y
+.237b  91 d1      sta ($d1),y      		sta (MDESL),y
+.237d  d1 d1      cmp ($d1),y      		cmp (MDESL),y
+.237f  f0 03      beq $2384        		beq AL1
+.2381  4c 72 22   jmp $2272        AL5 	jmp INVM1
+.2384  20 6c 23   jsr $236c        AL1 	jsr MCHEK
+.2387  f0 10      beq $2399        		beq ENDM
+.2389  e6 d5      inc $d5          		inc MBEGL
+.238b  d0 02      bne $238f        		bne MOVM3
+.238d  e6 d6      inc $d6          		inc MBEGH
+.238f  e6 d1      inc $d1          MOVM3 	inc MDESL
+.2391  d0 e6      bne $2379        		bne MOVM1
+.2393  e6 d2      inc $d2          		inc MDESH
+.2395  d0 e2      bne $2379        		bne MOVM1
+.2397  f0 e8      beq $2381        		beq AL5
+.2399  60         rts              ENDM 	rts
+.239a  a0 00      ldy #$00         MOVMR 	ldy #0
+.239c  b1 d3      lda ($d3),y      MOVR1 	lda (MENDL),y
+.239e  91 d1      sta ($d1),y      		sta (MDESL),y
+.23a0  d1 d1      cmp ($d1),y      		cmp (MDESL),y
+.23a2  d0 dd      bne $2381        		bne AL5
+.23a4  20 6c 23   jsr $236c        		jsr MCHEK
+.23a7  f0 18      beq $23c1        		beq ENDMR
+.23a9  38         sec              		sec
+.23aa  a5 d3      lda $d3          		lda MENDL
+.23ac  e9 01      sbc #$01         		sbc #1
+.23ae  85 d3      sta $d3          		sta MENDL
+.23b0  b0 02      bcs $23b4        		bcs MOVR3
+.23b2  c6 d4      dec $d4          		dec MENDH
+.23b4  38         sec              MOVR3 	sec
+.23b5  a5 d1      lda $d1          		lda MDESL
+.23b7  e9 01      sbc #$01         		sbc #1
+.23b9  85 d1      sta $d1          		sta MDESL
+.23bb  b0 df      bcs $239c        		bcs MOVR1
+.23bd  c6 d2      dec $d2          		dec MDESH
+.23bf  90 db      bcc $239c        		bcc MOVR1
+.23c1  60         rts              ENDMR 	rts
+.23c2  20 c9 23   jsr $23c9        MOV1 	jsr MOV2
+.23c5  20 10 24   jsr $2410        		jsr MOV4
+.23c8  60         rts              		rts
+.23c9  a5 da      lda $da          MOV2 	lda LOCCH
+.23cb  85 d6      sta $d6          		sta MBEGH
+.23cd  85 d4      sta $d4          		sta MENDH
+.23cf  a5 d9      lda $d9          		lda LOCCL
+.23d1  85 d5      sta $d5          		sta MBEGL
+.23d3  18         clc              		clc
+.23d4  a2 00      ldx #$00         		ldx #0
+.23d6  61 d9      adc ($d9,x)      		adc (LOCCL,x)
+.23d8  90 09      bcc $23e3        		bcc MOV21
+.23da  e6 d4      inc $d4          		inc MENDH
+.23dc  d0 05      bne $23e3        		bne MOV21
+.23de  68         pla              		pla
+.23df  68         pla              		pla
+.23e0  4c 72 22   jmp $2272        AL11 	jmp INVM1
+.23e3  38         sec              MOV21 	sec
+.23e4  e9 01      sbc #$01         		sbc #1
+.23e6  b0 02      bcs $23ea        		bcs MOV22
+.23e8  c6 d4      dec $d4          		dec MENDH
+.23ea  85 d3      sta $d3          MOV22 	sta MENDL
+.23ec  60         rts              		rts
+.23ed  a5 de      lda $de          MOV3 	lda HEXBUH
+.23ef  85 d6      sta $d6          		sta MBEGH
+.23f1  a5 dd      lda $dd          		lda HEXBUL
+.23f3  18         clc              		clc
+.23f4  a2 00      ldx #$00         		ldx #0
+.23f6  61 dd      adc ($dd,x)      		adc (HEXBUL,x)
+.23f8  90 04      bcc $23fe        		bcc MOV31
+.23fa  e6 d6      inc $d6          		inc MBEGH
+.23fc  f0 e2      beq $23e0        		beq AL11
+.23fe  85 d5      sta $d5          MOV31 	sta MBEGL
+.2400  a5 da      lda $da          MOV33 	lda LOCCH
+.2402  85 d4      sta $d4          		sta MENDH
+.2404  a5 d9      lda $d9          		lda LOCCL
+.2406  38         sec              		sec
+.2407  e9 01      sbc #$01         		sbc #1
+.2409  b0 02      bcs $240d        		bcs MOV32
+.240b  c6 d4      dec $d4          		dec MENDH
+.240d  85 d3      sta $d3          MOV32	sta MENDL
+.240f  60         rts              		rts
+.2410  a5 dd      lda $dd          MOV4 	lda HEXBUL
+.2412  85 d1      sta $d1          		sta MDESL
+.2414  a5 de      lda $de          		lda HEXBUH
+.2416  85 d2      sta $d2          		sta MDESH
+.2418  60         rts              		rts
+.2419  20 c9 23   jsr $23c9        MOV5 	jsr MOV2 
+.241c  a5 da      lda $da          MOV52 	lda LOCCH
+.241e  85 d2      sta $d2          		sta MDESH
+.2420  a2 00      ldx #$00         		ldx #0
+.2422  18         clc              		clc
+.2423  a5 d9      lda $d9          		lda LOCCL
+.2425  61 d9      adc ($d9,x)      		adc (LOCCL,x)
+.2427  90 04      bcc $242d        		bcc MOV51
+.2429  e6 d2      inc $d2          		inc MDESH
+.242b  f0 b3      beq $23e0        		beq AL11
+.242d  85 d1      sta $d1          MOV51 	sta MDESL
+.242f  60         rts              		rts
+.2430  a2 04      ldx #$04         RDASC 	ldx #4
+.2432  20 4b 24   jsr $244b        RDASC1 	jsr GETCH
+.2435  95 de      sta $de,x        		sta ASCBUM-4,x
+.2437  ca         dex              		dex
+.2438  d0 f8      bne $2432        		bne RDASC1
+.243a  60         rts              		rts
+.243b  85 d5      sta $d5          SAVR 	sta MBEGL
+.243d  86 d3      stx $d3          		stx MENDL
+.243f  84 d1      sty $d1          		sty MDESL
+.2441  60         rts              		rts
+.2442  20 3b 24   jsr $243b        CRLF 	jsr SAVR
+.2445  20 fe e1   jsr $e1fe        		jsr Print_CR    ; print cr
+.2448  4c 6f 24   jmp $246f        		jmp RESR
+.244b  20 3b 24   jsr $243b        GETCH 	jsr SAVR
+.244e  20 a4 e2   jsr $e2a4        		jsr Input_Chr
+.2451  20 aa e2   jsr $e2aa        		jsr Output      ; echo to display
+.2454  4c 71 24   jmp $2471        		jmp RESR1
+.2457  20 3b 24   jsr $243b        OUTCH 	jsr SAVR
+.245a  20 aa e2   jsr $e2aa        		jsr Output      ; print character
+.245d  4c 6f 24   jmp $246f        		jmp RESR
+.2460  20 3b 24   jsr $243b        SPACE  	jsr SAVR
+.2463  20 2f e2   jsr $e22f        		jsr Print1SP    ; print space
+.2466  4c 6f 24   jmp $246f        		jmp RESR
+.2469  20 3b 24   jsr $243b        OUTBYT 	jsr SAVR         ; spotted by Hans, was jmp
+.246c  20 0f e2   jsr $e20f        		jsr Print1Byte  ; print two character hex byte
+.246f  a5 d5      lda $d5          RESR 	lda MBEGL
+.2471  a6 d3      ldx $d3          RESR1 	ldx MENDL ; was lda
+.2473  a4 d1      ldy $d1          		ldy MDESL ; was lda
+.2475  ea         nop              		nop
+.2476  ea         nop              		nop
+.2477  ea         nop              		nop
+.2478  60         rts              		rts
+
+>2479  53 54 41 52 54 49 4e 47 20 41 44 44 52 45 53 53 3f 20  STADO 	.byte "STARTING ADDRESS? " ; change to caps, add space
+.248b                              ftab
+>248b  30 30 44 31 2d 30 30 45 32                  .byte "00D1-00E2"
+>2494  0d 00 0a 00                 		.byte $0d, $00, $0a, $00
+>2498  32 30 30 30 2d 32 34 61 30  		.byte "2000-24a0" ; "2000-249D" ; change 2490 to 249D
+
+--- end of code ---
